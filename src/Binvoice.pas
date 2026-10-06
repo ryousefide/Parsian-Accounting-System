@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, DBCtrls, Mask, Grids, DBGrids,DB, ExtCtrls, DBCGrids,
-  DBTables, ComCtrls, Buttons, PopupListBox;
+  DBTables, ComCtrls, Buttons, PopupListBox, UInvoiceCalculator;
 
 type
   TFBvoice = class(TForm)
@@ -158,8 +158,7 @@ type
     Procedure CancelEdit;
     Procedure GoodFilter(FacNo:Integer);
 
-    Procedure Sum_SingleCurr;
-    Procedure Sum_MultiCurr;
+    Procedure CalculateInvoiceTotals;
     Function IsMultiCurrency:Boolean;
 
   public
@@ -174,7 +173,7 @@ implementation
 uses FrooshDM, Routins, ProVar, RejFacRep, QrCtrls, MainForm, AcSearch,
   Converts, XPListBox, CRoutins;
 Const
-Tip='ÝÇßÊæÑ ÎÑíÏ';
+Tip='ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½';
 FTip=3;
 Var
 BesKod:Real;
@@ -204,7 +203,7 @@ begin
      Begin
        If Frodm.AcKodUseKod.Value = 0 Then
        Begin
-         ShowMessage('ÍÓÇÈ ÚãáíÇÊí äíÓÊ');
+         ShowMessage('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
          FNam.SetFocus;
          Exit;
        End;
@@ -218,7 +217,7 @@ begin
         Sb1.Panels[0].Text :=CurrToFar(Price);
        End Else
         Permit:=True;
-       Sb1.Panels[2].Text :='ÝÑæÔäÏå ËÇÈÊ';
+       Sb1.Panels[2].Text :='ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½';
        Sb1.Panels[1].Text :=AccString(Beskod);
      End Else
      Begin
@@ -236,7 +235,7 @@ begin
           Sb1.Panels[0].Text :=CurrToFar(Price);
          End Else
           Permit:=True;
-         Sb1.Panels[2].Text :='ÝÑæÔäÏå ãÊÝÑÞå';
+         Sb1.Panels[2].Text :='ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
          Sb1.Panels[1].Text :=AccString(Kod);
        End;
      End;
@@ -316,7 +315,7 @@ begin
        Begin
          Result:=False;
          MoFlag:=False;
-         ShowMessage('ãÞÏÇÑ ÇÒ ÍÏÇÞá ããßä ßãÊÑ ÇÓÊ-ÎØÇí ÇäÈÇÑ ãäÝí');
+         ShowMessage('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
          Exit;
        End;
        Frodm.BinvoGood.Next;
@@ -353,7 +352,7 @@ begin
          Result:=False;
          MoFlag:=False;
          BSave.Enabled:=True;
-         ShowMessage('ãÞÏÇÑ ÇÒ ÍÏÇÞá ããßä ßãÊÑ ÇÓÊ-ÎØÇí ÇäÈÇÑ ãäÝí');
+         ShowMessage('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
          Goods.SetFocus;
          Exit;
        End;
@@ -368,7 +367,7 @@ begin
          Result:=False;
          MoFlag:=False;
          Bsave.Enabled:=True;
-         ShowMessage('ãÞÏÇÑ ÇÒ ÍÏÇÞá ããßä ßãÊÑ ÇÓÊ-ÎØÇí ÇäÈÇÑ ãäÝí');
+         ShowMessage('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
          Goods.SetFocus;
          Exit;
        End;
@@ -435,15 +434,15 @@ begin
        Begin
          BehKod:=FroDM.AutoBill.FieldByName('BehKod').AsInteger;
          Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-         NewBNo:=AutoBill(Stat,BesKod,BehKod,Sum,'ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text
-         +' ÝÜÜ'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
+         NewBNo:=AutoBill(Stat,BesKod,BehKod,Sum,'ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text
+         +' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
          Frodm.BinvoCkod.AsInteger,Frodm.BinvoPkol.Value,Rate,Frodm.BinvoEco.AsString);
        End Else
-         NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+         NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
          0,Sum,'KJK',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
          Frodm.BinvoPkol.Value,Rate,Frodm.BinvoEco.AsString);
      End Else
-      NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+      NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
       0,Sum,'KJK',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
       Frodm.BinvoPkol.Value,Rate,Frodm.BinvoEco.AsString);
 //------------     FKolExit(Sender);
@@ -457,15 +456,15 @@ begin
        Begin
         BehKod:=FroDM.AutoBill.FieldByName('BesKod').AsInteger;
         Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-        NewBNo:=AutoBill(Stat,BehKod,BesKod,Sum,'ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '
+        NewBNo:=AutoBill(Stat,BehKod,BesKod,Sum,'ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '
         +FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
         FroDM.BinvoPdis.AsCurrency,Rate,Frodm.BinvoEco.AsString);
        End Else
-        NewBNo:=Automation('ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '+FNam.Text,0,Rate*Sum,'KDF',
+        NewBNo:=Automation('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '+FNam.Text,0,Rate*Sum,'KDF',
         FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,FroDM.BinvoPdis.AsCurrency
         ,Rate,Frodm.BinvoEco.AsString);
      End Else
-      NewBNo:=Automation('ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '+FNam.Text,0,Sum,'KDF',
+      NewBNo:=Automation('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '+FNam.Text,0,Sum,'KDF',
       FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
       FroDM.BinvoPdis.AsCurrency,Rate,Frodm.BinvoEco.AsString);
 //-------------     FDisExit(Sender);
@@ -478,17 +477,17 @@ begin
        FroDM.AutoBill.FindKey(['KNF']);
        BehKod:=FroDM.AutoBill.FieldByName('BehKod').AsInteger;
        Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-       NewBNo:=AutoBill(Stat,BesKod,BehKod,(Ppkol-Ppdis)*Rate,'ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'
-                +FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,
+       NewBNo:=AutoBill(Stat,BesKod,BehKod,(Ppkol-Ppdis)*Rate,'ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'
+                +FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,
                 Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,(Ppkol-Ppdis),
                 Rate,Frodm.BinvoEco.AsString);
      End Else
-       NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+       NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
        0,(Ppkol-Ppdis)*Rate,'KNF',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
        Frodm.BinvoCkod.AsInteger,(Ppkol-Ppdis),Rate,Frodm.BinvoEco.AsString);
 //-------------     FNetExit(Sender);
      If NewBNo = BNo Then BillUpdate(BNo) Else
-      If sBill Then MakeBill('ÓäÏ ÎÑíÏ ÇÒ '+' '+FNam.Text+' Øí ÑÓíÏ ÎÑíÏ ÔãÇÑå'
+      If sBill Then MakeBill('ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ '+' '+FNam.Text+' ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'
       +FNo.Text);
      BNo:=NewBNo;
 end;
@@ -513,15 +512,15 @@ begin
        Begin
          BehKod:=FroDM.AutoBill.FieldByName('BehKod').AsInteger;
          Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-         NewBNo:=AutoBill(Stat,BesKod,BehKod,Sum,'ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text
-         +' ÝÜÜ'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
+         NewBNo:=AutoBill(Stat,BesKod,BehKod,Sum,'ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text
+         +' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
          Frodm.BinvoCkod.AsInteger,Frodm.BinvoPkol.Value,Rate,CTip);
        End Else
-         NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+         NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
          0,Sum,'KJK',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
          Frodm.BinvoPkol.Value,Rate,CTip);
      End Else
-      NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+      NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
       0,Sum,'KJK',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
       Sum,Rate,CTip);
 //------------     FKolExit(Sender);
@@ -535,15 +534,15 @@ begin
        Begin
         BehKod:=FroDM.AutoBill.FieldByName('BesKod').AsInteger;
         Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-        NewBNo:=AutoBill(Stat,BehKod,BesKod,Sum,'ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '
+        NewBNo:=AutoBill(Stat,BehKod,BesKod,Sum,'ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '
         +FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
         FroDM.BinvoPdis.AsCurrency,Rate,CTip);
        End Else
-        NewBNo:=Automation('ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '+FNam.Text,0,Sum,'KDF',
+        NewBNo:=Automation('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '+FNam.Text,0,Sum,'KDF',
         FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
         FroDM.BinvoPdis.AsCurrency,Rate,CTip);
      End Else
-      NewBNo:=Automation('ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '+FNam.Text,0,Sum,'KDF',
+      NewBNo:=Automation('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '+FNam.Text,0,Sum,'KDF',
       FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
       FroDM.BinvoPdis.AsCurrency,Rate,Frodm.BinvoEco.AsString);
 //-------------     FDisExit(Sender);
@@ -556,17 +555,17 @@ begin
        FroDM.AutoBill.FindKey(['KNF']);
        BehKod:=FroDM.AutoBill.FieldByName('BehKod').AsInteger;
        Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-       NewBNo:=AutoBill(Stat,BesKod,BehKod,(Ppkol-Ppdis)*Rate,'ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'
-                +FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,
+       NewBNo:=AutoBill(Stat,BesKod,BehKod,(Ppkol-Ppdis)*Rate,'ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'
+                +FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,
                 Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,(Ppkol-Ppdis),
                 Rate,CTip);
      End Else
-       NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+       NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
        0,(Ppkol-Ppdis)*Rate,'KNF',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
        Frodm.BinvoCkod.AsInteger,(Ppkol-Ppdis),Rate,CTip);
 //-------------     FNetExit(Sender);
      If NewBNo = BNo Then BillUpdate(BNo) Else
-      If sBill Then MakeBill('ÓäÏ ÎÑíÏ ÇÒ '+' '+FNam.Text+' Øí ÑÓíÏ ÎÑíÏ ÔãÇÑå'
+      If sBill Then MakeBill('ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ '+' '+FNam.Text+' ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'
       +FNo.Text);
      BNo:=NewBNo;
 end;
@@ -592,12 +591,12 @@ begin
        FroDM.AutoBill.FindKey(['KNF']);
        BehKod:=FroDM.AutoBill.FieldByName('BehKod').AsInteger;
        Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-       NewBNo:=AutoBill(Stat,BesKod,BehKod,(Ppkol-Ppdis)*Rate,'ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'
-                +FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,
+       NewBNo:=AutoBill(Stat,BesKod,BehKod,(Ppkol-Ppdis)*Rate,'ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'
+                +FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,
                 Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,(Ppkol-Ppdis),
                 Rate,Frodm.BinvoEco.AsString);
      End Else
-       NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+       NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
        0,(Ppkol-Ppdis)*Rate,'KNF',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
        Frodm.BinvoCkod.AsInteger,(Ppkol-Ppdis),Rate,Frodm.BinvoEco.AsString);
 end;
@@ -616,15 +615,15 @@ begin
        Begin
          BehKod:=FroDM.AutoBill.FieldByName('BehKod').AsInteger;
          Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-         NewBNo:=AutoBill(Stat,BesKod,BehKod,Sum*Rate,'ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text
-         +' ÝÜÜ'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
+         NewBNo:=AutoBill(Stat,BesKod,BehKod,Sum*Rate,'ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text
+         +' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,
          Frodm.BinvoCkod.AsInteger,Sum,Rate,Frodm.BinvoEco.AsString);
        End Else
-         NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+         NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
          0,Sum*Rate,'KJK',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
          Sum,Rate,Frodm.BinvoEco.AsString);
      End Else
-      NewBNo:=Automation('ÌãÚ ßá ÑÓíÏ ÇäÈÇÑ ÔãÇÑå'+FNo.Text+' ÝÜÜ'+FTel.Text+' '+FNam.Text,
+      NewBNo:=Automation('ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' ï¿½ï¿½ï¿½'+FTel.Text+' '+FNam.Text,
       0,Sum*Rate,'KJK',FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
       Sum,Rate,Frodm.BinvoEco.AsString);
 end;
@@ -643,15 +642,15 @@ begin
        Begin
         BehKod:=FroDM.AutoBill.FieldByName('BesKod').AsInteger;
         Stat:=FroDM.AutoBill.FieldByName('Stat').AsBoolean;
-        NewBNo:=AutoBill(Stat,BehKod,BesKod,Sum*Rate,'ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '
+        NewBNo:=AutoBill(Stat,BehKod,BesKod,Sum*Rate,'ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '
         +FNam.Text,FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
         Sum,Rate,Frodm.BinvoEco.AsString);
        End Else
-        NewBNo:=Automation('ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '+FNam.Text,0,Rate*Sum,'KDF',
+        NewBNo:=Automation('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '+FNam.Text,0,Rate*Sum,'KDF',
         FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,Sum,Rate,
         Frodm.BinvoEco.AsString);
      End Else
-      NewBNo:=Automation('ÊÎÝíÝ ÝÇßÊæÑ ÎÑíÏ ÔãÇÑå'+FNo.Text+' '+FNam.Text,0,Sum*Rate,'KDF',
+      NewBNo:=Automation('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½'+FNo.Text+' '+FNam.Text,0,Sum*Rate,'KDF',
       FacNo,BNo,FTip,BDat,Frodm.BinvoCost.AsString,Frodm.BinvoCkod.AsInteger,
       Sum,Rate,Frodm.BinvoEco.AsString);
 end;
@@ -714,68 +713,24 @@ begin
      Dat1.Text:=IntToDate(Frodm.BinvoDat.Value)
 end;
 
-procedure TFBvoice.Sum_singleCurr;
+procedure TFBvoice.CalculateInvoiceTotals;
 var
-I:Integer;
-Sum,Nsum:Currency;
-mSum:Currency;
+  Calculator: TInvoiceCalculator;
+  Total, Net, Discount: Currency;
 begin
-//--------------------------------
-     Hmu:=CreateMutex(nil,False,PChar(Encrypt('4.>-;S. S4,-<)S<3:',130)));
-     If GetLastError() <> ERROR_ALREADY_EXISTS Then Frodm.Destroy;
-     CloseHandle(Hmu);
-//--------------------------------
-     If FroDM.Binvo.State = dsBrowse Then Exit ;
-     FroDM.BinvoGood.First;
-     Sum:=0;Nsum:=0;mSum:=0;
-     For I:=1 to FroDM.BinvoGood.RecordCount Do
-     Begin
-      Sum:=Sum+FroDM.BinvoGoodBfee.Value * Frodm.BinvoGoodQuant.Value;
-      Nsum:=Nsum+FroDM.BinvoGoodPtotal.Value;
-      mSum:=mSum+FroDM.BinvoGoodPtotal.Value*Frodm.BinvoGoodAnbkod.Value;
-      FroDM.BinvoGood.Next;
-     End;
-     FroDM.BinvoPkol.AsCurrency:=Sum;
-     Frodm.BinvoPnet.AsCurrency:=Nsum;
-     Frodm.BinvoPrem.Value:=mSum;
-     Disc:=0;
-     If sPerc Then
-     Begin
-      Disc:=Sum-Nsum;
-      Frodm.BinvoPdis.AsCurrency:=Disc;
-     End;
-end;
-
-procedure TFBvoice.Sum_MultiCurr;
-var
-I:Integer;
-Sum,Nsum:Currency;
-mSum:Currency;
-begin
-//--------------------------------
-     Hmu:=CreateMutex(nil,False,PChar(Encrypt('4.>-;S. S4,-<)S<3:',130)));
-     If GetLastError() <> ERROR_ALREADY_EXISTS Then Frodm.Destroy;
-     CloseHandle(Hmu);
-//--------------------------------
-     If FroDM.Invo.State = dsBrowse Then Exit ;
-     FroDM.BinvoGood.First;
-     Sum:=0;Nsum:=0;;mSum:=0;
-     For I:=1 to FroDM.BinvoGood.RecordCount Do
-     Begin
-      Sum:=Sum+FroDM.BinvoGoodBfee.Value * Frodm.BinvoGoodQuant.Value*Frodm.BinvoGoodAnbkod.Value;
-      //Nsum:=Nsum+FroDM.BinvoGoodPtotal.Value;
-      mSum:=mSum+FroDM.BinvoGoodPtotal.Value*Frodm.BinvoGoodAnbkod.Value;
-      FroDM.BinvoGood.Next;
-     End;
-     FroDM.BinvoPkol.AsCurrency:=Sum;
-     Frodm.BinvoPnet.AsCurrency:=mSum;
-     Frodm.BinvoPrem.Value:=mSum;
-     Disc:=0;
-     If sPerc Then
-     Begin
-      Disc:=Sum-mSum;
-      Frodm.BinvoPdis.AsCurrency:=Disc;
-     End;
+  // Dependency Injection: Pass the DataSet and Business Rules to the Engine
+  Calculator := TInvoiceCalculator.Create(FroDM.BinvoGood, MultiCurr, sPerc);
+  try
+    Calculator.Calculate(Total, Net, Discount);
+    
+    // Update the UI/DataModule
+    FroDM.BinvoPkol.AsCurrency := Total;
+    FroDM.BinvoPnet.AsCurrency := Net;
+    FroDM.BinvoPdis.AsCurrency := Discount;
+    
+  finally
+    Calculator.Free;
+  end;
 end;
 
 Function TFBvoice.IsMultiCurrency:Boolean;
@@ -927,7 +882,7 @@ begin
      Else
       Frodm.BinvoNo.Value :=StrToInt(FNo.Text);
 //     Frodm.BinvoNo.Value :=StrToInt(FNo.Text);
-     Frodm.BinvoNam.Value:='äÇã ÝÑæÔäÏå';
+     Frodm.BinvoNam.Value:='ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
      Frodm.BinvoDat.Value :=Fardate;
      Frodm.BinvoPerm.Value:=False;
      FNo.Text:=IntToStr(Frodm.BinvoNo.Value);
@@ -938,7 +893,7 @@ begin
      BDat:=Frodm.BinvoDat.Value;
      FacNo:=FNo.Text;
      GoodFilter(Frodm.BinvoNo.AsInteger);//1381-08-29
-     Sb1.Panels[2].Text :='ÌÏíÏ';
+     Sb1.Panels[2].Text :='ï¿½ï¿½ï¿½ï¿½';
      BSave.Enabled:=True;
      BEdit.Enabled:=False;
 //     FNam.SetFocus;
@@ -960,7 +915,7 @@ begin
      Begin
        BEdit.Enabled:=True;
        Beep;
-       ShowMessage('ÍÓÇÈ ÇÚÊÈÇÑ äÏÇÑÏ.ÞÇÈá ÊÛííÑ äíÓÊ');
+       ShowMessage('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
        Exit;
      End;
      EdQu.SQL.Strings[1]:='WHERE I.no = '+FNo.Text;
@@ -995,11 +950,10 @@ begin
        Exit;
      End;
      GoodsExit(Sender);//If Frodm.BinvoPkol.Value= 0 Then
+     //------new
      MultiCurr:=IsMultiCurrency;
-     If MultiCurr Then
-      Sum_MultiCurr
-     Else
-      Sum_SingleCurr;
+     CalculateInvoiceTotals;
+     //------------
      Disc:=0;
      Frodm.BinvoPnet.AsCurrency:=FroDM.BinvoPkol.AsCurrency-FroDM.BinvoPDis.AsCurrency;
      If Not RequierdCheck(Frodm.Binvo) Then
@@ -1145,7 +1099,7 @@ begin
      Find_SuplKod;
      If Not(Permit) and(Frodm.BInvo.State In[dsInsert,dsEdit]) Then
      Begin
-       ShowMessage('ÍÓÇÈ ÇÚÊÈÇÑ äÏÇÑÏ');
+       ShowMessage('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½');
        FormDestroy(Sender);
        Fno.Text:=IntToStr(Frodm.BinvoNo.Value);
        Exit;
@@ -1396,17 +1350,17 @@ Var
 I:Integer;
 begin
      If Not (Frodm.Binvo.State = dsBrowse) Then Exit;
-     If MessageDlg('ÝÇßÊæÑ ÍÐÝ ÔæÏ',mtWarning,mbYesNo,0) = mrYes Then
+     If MessageDlg('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½',mtWarning,mbYesNo,0) = mrYes Then
      begin
        If Frodm.BInvoPerm.Value = True Then
        Begin
-         ShowMessage('ÝÇßÊæÑ ÏÇÆãí ÇÓÊ');
+         ShowMessage('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½');
          Exit;
        End;
        If Not DeleteCheck Then
        Begin
          Beep;
-         ShowMessage('ÇÞáÇã ÝÇßÊæÑ Èå ãÕÑÝ ÑÓíÏå ÇÓÊ .ÞÇÈá ÍÐÝ äãí ÈÇÔÏ');
+         ShowMessage('ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ .ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
          Exit;
        End;
        BNo:=Frodm.BinvoBno.Value;
@@ -1455,7 +1409,7 @@ begin
      RepBuyRej.qrlRem.Enabled :=sRem;
      RepBuyRej.QRLabel20.Enabled :=sRem;
      RepBuyRej.qrTit.Caption:=InvoLbl;
-     RepBuyRej.qrLabel1.Caption:='ÝÇßÊæÑ ÎÑíÏ';
+     RepBuyRej.qrLabel1.Caption:='ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½';
      RepBuyRej.QRMemo1.Lines.Add(Master);
      RepBuyRej.qrCom.Caption:=Comm;
      RepBuyRej.qrFrem.CapTion:=FarsiPrice(Frodm.BinvoPnet.Value);
@@ -1533,10 +1487,8 @@ end;
 
 procedure TFBvoice.FkolEnter(Sender: TObject);
 begin
-     If IsMultiCurrency Then
-      Sum_MultiCurr
-     Else
-      Sum_SingleCurr;
+     MultiCurr:=IsMultiCurrency;
+     CalculateInvoiceTotals;
 end;
 
 procedure TFBvoice.FCKodKeyDown(Sender: TObject; var Key: Word;
