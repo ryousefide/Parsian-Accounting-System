@@ -1,0 +1,334 @@
+object FGOut: TFGOut
+  Left = 5
+  Top = 109
+  BiDiMode = bdRightToLeft
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = '»—ê  ÕÊÌ· ﬂ«·«'
+  ClientHeight = 241
+  ClientWidth = 610
+  Color = clBtnFace
+  Font.Charset = ARABIC_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Serif'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  ParentBiDiMode = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 554
+    Top = 1
+    Width = 46
+    Height = 19
+    AutoSize = False
+    Caption = '‘„«—Â'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Layout = tlCenter
+  end
+  object Label2: TLabel
+    Left = 489
+    Top = 38
+    Width = 50
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '‘—Õ ﬂ«·«'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label3: TLabel
+    Left = 323
+    Top = 38
+    Width = 43
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '„œ·'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label4: TLabel
+    Left = 235
+    Top = 38
+    Width = 41
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '«‰»«—'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label5: TLabel
+    Left = 175
+    Top = 38
+    Width = 41
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'ﬁ›”Â'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label6: TLabel
+    Left = 127
+    Top = 38
+    Width = 41
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '„ﬁœ«—'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label7: TLabel
+    Left = 70
+    Top = 38
+    Width = 41
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Ê«Õœ'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label8: TLabel
+    Left = 14
+    Top = 38
+    Width = 41
+    Height = 19
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '„ÊÃÊœÌ'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+    Layout = tlCenter
+  end
+  object Label9: TLabel
+    Left = 426
+    Top = 1
+    Width = 46
+    Height = 19
+    AutoSize = False
+    Caption = 'Œ—Ìœ«—'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Layout = tlCenter
+  end
+  object Label10: TLabel
+    Left = 162
+    Top = 1
+    Width = 46
+    Height = 19
+    AutoSize = False
+    Caption = '„Ê—ŒÂ'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Layout = tlCenter
+  end
+  object lbDat: TLabel
+    Left = 54
+    Top = 1
+    Width = 98
+    Height = 19
+    AutoSize = False
+    BiDiMode = bdRightToLeftNoAlign
+    Caption = '        '
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentBiDiMode = False
+    ParentFont = False
+    Layout = tlCenter
+  end
+  object Bevel1: TBevel
+    Left = 7
+    Top = 36
+    Width = 598
+    Height = 22
+    Shape = bsFrame
+    Style = bsRaised
+  end
+  object FNo: TEdit
+    Left = 477
+    Top = 0
+    Width = 69
+    Height = 21
+    TabOrder = 0
+    OnExit = FNoExit
+    OnKeyPress = NextTab
+  end
+  object clbGood: TCheckListBox
+    Left = 396
+    Top = 59
+    Width = 209
+    Height = 150
+    ItemHeight = 13
+    TabOrder = 2
+    OnClick = clbGoodClick
+    OnKeyDown = clbGoodKeyDown
+  end
+  object lbModel: TListBox
+    Left = 302
+    Top = 59
+    Width = 95
+    Height = 150
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
+    TabOrder = 3
+  end
+  object lbAnb: TListBox
+    Left = 217
+    Top = 59
+    Width = 86
+    Height = 150
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
+    TabOrder = 4
+  end
+  object lbAKod: TListBox
+    Left = 176
+    Top = 59
+    Width = 42
+    Height = 150
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
+    TabOrder = 5
+  end
+  object lbQ: TListBox
+    Left = 125
+    Top = 59
+    Width = 52
+    Height = 150
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
+    TabOrder = 6
+    OnDblClick = lbQDblClick
+  end
+  object lbU: TListBox
+    Left = 62
+    Top = 59
+    Width = 64
+    Height = 150
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
+    TabOrder = 7
+  end
+  object lbRem: TListBox
+    Left = 7
+    Top = 59
+    Width = 56
+    Height = 150
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
+    TabOrder = 8
+  end
+  object FNam: TEdit
+    Left = 253
+    Top = 0
+    Width = 164
+    Height = 21
+    TabStop = False
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object BDeliv: TButton
+    Left = 60
+    Top = 215
+    Width = 75
+    Height = 25
+    Caption = ' ÕÊÌ·'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    TabOrder = 9
+    OnClick = BDelivClick
+  end
+  object Bexit: TButton
+    Left = 484
+    Top = 215
+    Width = 75
+    Height = 25
+    Cancel = True
+    Caption = 'Œ—ÊÃ'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    TabOrder = 10
+    OnClick = BexitClick
+  end
+end

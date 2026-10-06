@@ -1,0 +1,8 @@
+SELECT     SUM(I.Quant) AS Expr1, H.Kol, H.Mo, H.Taf
+FROM         Invogood I CROSS JOIN
+                      GChart H
+WHERE     (I.Kod IN
+                          (SELECT     Kod
+                             FROM         Goods G
+                             WHERE     G.Kol = H.Kol AND G.Mo = H.Mo AND G.taf = H.taf AND Kol = 6))
+GROUP BY H.Kol, H.Mo, H.Taf

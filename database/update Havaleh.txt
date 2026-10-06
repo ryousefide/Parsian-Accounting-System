@@ -1,0 +1,5 @@
+update Dhavg 
+Set Reject =(Select Sum(G.Quant) From DoutG G Where G.Kod=Dhavg.kod and G.Color=Dhavg.color and G.No in 
+(Select K.No From Dout K where K.RefNo=Dhavg.No))
+
+»—«Ì »Â —Ê“ ò—œ‰ Œ—ÊÃÌ »« ÕÊ«·Â

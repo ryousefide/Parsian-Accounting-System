@@ -1,0 +1,7 @@
+SELECT  I.Nam, I.Quant, I.Pfee, I.Perc, D.Pfee AS input
+FROM         Invogood I INNER JOIN
+                      DHavG D ON I.[No] = D.Anbkod AND I.Kod = D.Kod
+WHERE     (I.Kod = 103) AND (I.[No] IN
+                          (SELECT     No
+                             FROM         Invoice
+                             WHERE     Nam = '»œÂò«—«‰ Â„ò«—' AND Ckod = 36))

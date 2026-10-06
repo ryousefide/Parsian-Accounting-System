@@ -1,0 +1,89 @@
+object FUserName: TFUserName
+  Left = 406
+  Top = 231
+  ActiveControl = Nam
+  AutoSize = True
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  BorderWidth = 5
+  Caption = 'ßÇÑÈÑ'
+  ClientHeight = 76
+  ClientWidth = 200
+  Color = clBtnFace
+  Font.Charset = ARABIC_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Serif'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Bevel1: TBevel
+    Left = 0
+    Top = 0
+    Width = 200
+    Height = 76
+  end
+  object Label1: TLabel
+    Left = 4
+    Top = 6
+    Width = 70
+    Height = 18
+    AutoSize = False
+    BiDiMode = bdLeftToRight
+    Caption = 'Username'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentBiDiMode = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 7
+    Top = 47
+    Width = 64
+    Height = 18
+    AutoSize = False
+    BiDiMode = bdLeftToRight
+    Caption = 'Password'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold]
+    ParentBiDiMode = False
+    ParentFont = False
+  end
+  object Nam: TEdit
+    Left = 78
+    Top = 4
+    Width = 116
+    Height = 21
+    BiDiMode = bdRightToLeft
+    Constraints.MaxHeight = 21
+    ParentBiDiMode = False
+    TabOrder = 0
+    OnKeyPress = NamKeyPress
+  end
+  object Pass1: TEdit
+    Left = 79
+    Top = 45
+    Width = 114
+    Height = 21
+    BiDiMode = bdRightToLeft
+    Constraints.MaxHeight = 21
+    ParentBiDiMode = False
+    PasswordChar = '*'
+    TabOrder = 1
+    OnEnter = Pass1Enter
+    OnExit = BOkClick
+    OnKeyPress = Pass1KeyPress
+  end
+end

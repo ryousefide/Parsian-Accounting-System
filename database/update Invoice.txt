@@ -1,0 +1,6 @@
+update InvoGood 
+
+Set Qout =(Select Sum(G.Quant) From DHavG G Where G.Kod=InvoGood.kod and G.Color=InvoGood.color and G.No in 
+(Select K.No From Dhav K where K.RefNo=InvoGood.No))
+
+»—Ê“ ò—œ‰ ›«ò Ê— Ê ÕÊ«·Â

@@ -1,0 +1,346 @@
+object FDiagMo: TFDiagMo
+  Left = 28
+  Top = 9
+  BorderStyle = bsSingle
+  Caption = '‰„Êœ«— Õ”«»Â«Ì ⁄„·Ì« Ì'
+  ClientHeight = 357
+  ClientWidth = 576
+  Color = clBtnFace
+  Font.Charset = ARABIC_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Serif'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poDefaultSizeOnly
+  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnResize = FormResize
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Bevel1: TBevel
+    Left = 0
+    Top = 0
+    Width = 576
+    Height = 357
+  end
+  object Dch1: TDBChart
+    Left = 4
+    Top = 3
+    Width = 574
+    Height = 316
+    AnimatedZoom = True
+    BackImageInside = True
+    BackImageMode = pbmTile
+    BackWall.Brush.Color = clWhite
+    BackWall.Brush.Style = bsClear
+    BackWall.Color = 8454016
+    BottomWall.Brush.Color = clWhite
+    BottomWall.Color = clBlue
+    BottomWall.Size = 5
+    Foot.Font.Charset = ARABIC_CHARSET
+    Foot.Font.Color = clBlack
+    Foot.Font.Height = -11
+    Foot.Font.Name = 'Mitra'
+    Foot.Font.Style = [fsBold, fsItalic]
+    Gradient.EndColor = 16777088
+    Gradient.StartColor = clBlack
+    LeftWall.Brush.Color = clWhite
+    LeftWall.Brush.Style = bsClear
+    LeftWall.Size = 7
+    MarginBottom = 3
+    MarginLeft = 0
+    MarginRight = 7
+    MarginTop = 3
+    PrintProportional = False
+    Title.AdjustFrame = False
+    Title.Brush.Color = clWhite
+    Title.Color = clWhite
+    Title.Font.Charset = ARABIC_CHARSET
+    Title.Font.Color = clBlack
+    Title.Font.Height = -13
+    Title.Font.Name = 'Mitra'
+    Title.Font.Style = [fsBold, fsItalic]
+    Title.Text.Strings = (
+      '')
+    Title.Visible = False
+    BackColor = 8454016
+    BottomAxis.Automatic = False
+    BottomAxis.AutomaticMaximum = False
+    BottomAxis.AutomaticMinimum = False
+    BottomAxis.AxisValuesFormat = '####/##/##'
+    BottomAxis.DateTimeFormat = 'dd/MM/yyyy'
+    BottomAxis.ExactDateTime = False
+    BottomAxis.GridCentered = True
+    BottomAxis.Increment = 100
+    BottomAxis.LabelsAngle = 90
+    BottomAxis.LabelsFont.Charset = ARABIC_CHARSET
+    BottomAxis.LabelsFont.Color = clBlack
+    BottomAxis.LabelsFont.Height = -11
+    BottomAxis.LabelsFont.Name = 'Arial'
+    BottomAxis.LabelsFont.Style = []
+    BottomAxis.LabelsSeparation = 5
+    BottomAxis.LabelStyle = talValue
+    BottomAxis.Maximum = 13801229
+    BottomAxis.Minimum = 13800129
+    BottomAxis.MinorTickCount = 10
+    BottomAxis.MinorTickLength = 3
+    BottomAxis.StartPosition = 2
+    BottomAxis.EndPosition = 98
+    BottomAxis.TickLength = 5
+    BottomAxis.Ticks.Visible = False
+    BottomAxis.Title.Font.Charset = ARABIC_CHARSET
+    BottomAxis.Title.Font.Color = clBlack
+    BottomAxis.Title.Font.Height = -11
+    BottomAxis.Title.Font.Name = 'Mitra'
+    BottomAxis.Title.Font.Style = []
+    BottomAxis.Visible = False
+    Chart3DPercent = 35
+    LeftAxis.AxisValuesFormat = '#,##0'
+    LeftAxis.Grid.Color = 8454143
+    LeftAxis.LabelsOnAxis = False
+    LeftAxis.MinorTicks.Color = 8454143
+    LeftAxis.TickInnerLength = 3
+    Legend.Alignment = laLeft
+    Legend.ColorWidth = 0
+    Legend.Font.Charset = ARABIC_CHARSET
+    Legend.Font.Color = clBlack
+    Legend.Font.Height = -12
+    Legend.Font.Name = 'Mitra'
+    Legend.Font.Style = [fsItalic]
+    Legend.TopPos = 0
+    Legend.Visible = False
+    MaxPointsPerPage = 50
+    RightAxis.Title.Font.Charset = ARABIC_CHARSET
+    RightAxis.Title.Font.Color = clBlack
+    RightAxis.Title.Font.Height = -11
+    RightAxis.Title.Font.Name = 'Mitra'
+    RightAxis.Title.Font.Style = []
+    RightAxis.Visible = False
+    TopAxis.DateTimeFormat = 'hh:mm AMPM'
+    TopAxis.Title.Font.Charset = ARABIC_CHARSET
+    TopAxis.Title.Font.Color = clBlack
+    TopAxis.Title.Font.Height = -11
+    TopAxis.Title.Font.Name = 'Mitra'
+    TopAxis.Title.Font.Style = []
+    TopAxis.Visible = False
+    View3D = False
+    View3DOptions.HorizOffset = -27
+    View3DOptions.Perspective = 0
+    View3DOptions.Rotation = 337
+    View3DOptions.VertOffset = 24
+    View3DOptions.Zoom = 91
+    View3DWalls = False
+    BevelInner = bvLowered
+    BevelWidth = 2
+    BorderWidth = 1
+    BorderStyle = bsSingle
+    Color = clWhite
+    TabOrder = 0
+    OnDblClick = Dch1Click
+    object Series1: TLineSeries
+      ColorEachPoint = True
+      HorizAxis = aBothHorizAxis
+      Marks.Arrow.Color = 4194368
+      Marks.ArrowLength = 20
+      Marks.BackColor = clWhite
+      Marks.Font.Charset = ARABIC_CHARSET
+      Marks.Font.Color = clBlack
+      Marks.Font.Height = -11
+      Marks.Font.Name = 'Mitra'
+      Marks.Font.Style = [fsItalic]
+      Marks.Visible = True
+      DataSource = FroDM.Gardesh
+      SeriesColor = 131586
+      ValueFormat = '#,##0.'
+      VertAxis = aBothVertAxis
+      Pointer.InflateMargins = True
+      Pointer.Style = psCross
+      Pointer.Visible = True
+      XValues.DateTime = False
+      XValues.Name = 'X'
+      XValues.Multiplier = 1
+      XValues.Order = loAscending
+      XValues.ValueSource = 'Dat'
+      YValues.DateTime = False
+      YValues.Name = 'Y'
+      YValues.Multiplier = 1
+      YValues.Order = loNone
+      YValues.ValueSource = 'Diag'
+      object TeeFunction1: THighTeeFunction
+      end
+    end
+  end
+  object Bprint: TButton
+    Left = 1
+    Top = 319
+    Width = 82
+    Height = 37
+    Caption = 'ç«Å'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    TabOrder = 1
+    OnClick = BprintClick
+  end
+  object Bexit: TButton
+    Left = 484
+    Top = 319
+    Width = 90
+    Height = 37
+    Cancel = True
+    Caption = 'Œ—ÊÃ'
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Mitra'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    TabOrder = 2
+    OnClick = BexitClick
+  end
+  object Panel1: TPanel
+    Tag = 1
+    Left = 83
+    Top = 319
+    Width = 401
+    Height = 38
+    BevelInner = bvLowered
+    PopupMenu = PopupMenu1
+    TabOrder = 3
+    object sc3D: TScrollBar
+      Left = 215
+      Top = 4
+      Width = 100
+      Height = 13
+      Hint = ' €ÌÌ— ⁄„ﬁ'
+      BiDiMode = bdLeftToRight
+      Min = 1
+      PageSize = 0
+      ParentBiDiMode = False
+      ParentShowHint = False
+      Position = 44
+      ShowHint = True
+      TabOrder = 2
+      OnChange = sc3DChange
+    end
+    object cb3D: TCheckBox
+      Left = 321
+      Top = 3
+      Width = 72
+      Height = 17
+      BiDiMode = bdRightToLeft
+      Caption = '”Â »⁄œÌ'
+      ParentBiDiMode = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      OnClick = cb3DClick
+    end
+    object scZoom: TScrollBar
+      Left = 215
+      Top = 21
+      Width = 100
+      Height = 13
+      Hint = '»“—ê‰„«ÌÌ'
+      Max = 300
+      Min = 1
+      PageSize = 0
+      ParentShowHint = False
+      Position = 100
+      ShowHint = True
+      TabOrder = 3
+      OnChange = scZoomChange
+    end
+    object scEle: TScrollBar
+      Left = 110
+      Top = 4
+      Width = 100
+      Height = 13
+      Hint = '‰”» '
+      Max = 90
+      Min = -90
+      PageSize = 0
+      ParentShowHint = False
+      Position = 25
+      ShowHint = True
+      TabOrder = 4
+      OnChange = scEleChange
+    end
+    object scRotation: TScrollBar
+      Left = 110
+      Top = 21
+      Width = 100
+      Height = 13
+      Hint = 'ç—Œ‘'
+      Max = 365
+      Min = -365
+      PageSize = 0
+      ParentShowHint = False
+      Position = 45
+      ShowHint = True
+      TabOrder = 5
+      OnChange = scRotationChange
+    end
+    object cbOrtog: TCheckBox
+      Left = 334
+      Top = 19
+      Width = 59
+      Height = 16
+      BiDiMode = bdRightToLeft
+      Caption = 'À«» '
+      ParentBiDiMode = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+      OnClick = cbOrtogClick
+    end
+    object scVOf: TScrollBar
+      Left = 3
+      Top = 4
+      Width = 100
+      Height = 13
+      Max = 1500
+      Min = -1500
+      PageSize = 0
+      TabOrder = 6
+      OnChange = scVOfChange
+    end
+    object scHof: TScrollBar
+      Left = 3
+      Top = 21
+      Width = 100
+      Height = 13
+      Max = 1500
+      Min = -1500
+      PageSize = 0
+      TabOrder = 7
+      OnChange = scHofChange
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 379
+    Top = 334
+    object N801: TMenuItem
+      Caption = '10%'
+      OnClick = N801Click
+    end
+    object N1001: TMenuItem
+      Caption = '25%'
+      OnClick = N1001Click
+    end
+    object N1201: TMenuItem
+      Caption = '-25%'
+      OnClick = N1201Click
+    end
+    object N1401: TMenuItem
+      Caption = '-10%'
+      OnClick = N1401Click
+    end
+  end
+end
